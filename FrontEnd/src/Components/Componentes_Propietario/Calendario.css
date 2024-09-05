@@ -1,0 +1,141 @@
+.calendario-container {
+  font-family: Arial, sans-serif;
+}
+
+.calendario-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: #070707;
+  font-family: Arial, sans-serif;
+}
+.calendario-nav button {
+  background-color: #007bff;
+  color: white; 
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calendario-nav button:hover {
+  background-color: #0056b3; 
+}
+
+.calendario-header {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.calendario-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.calendario-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid blue; /* Agregado borde azul */
+}
+
+.calendario-day.default {
+  background-color: #ffffff;
+}
+
+.calendario-day.green {
+  background-color: #63d87e;
+  color: #155724;
+}
+
+.calendario-day.red {
+  background-color: #e2414ed8;
+  color: #721c24;
+}
+
+.calendario-day:hover {
+  background-color: #ccc6c6;
+}
+
+.calendario-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendario-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px; 
+  width: 80%; 
+  max-width: 400px; 
+  max-height: 80%; 
+  overflow-y: auto; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-buttons button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.modal-buttons button[type="submit"] {
+  background-color: #2d8642ee;
+  color: white;
+}
+
+.modal-buttons button[type="submit"]:hover {
+  background-color: #0da12d;
+}
+
+.modal-buttons button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-buttons button[type="button"]:hover {
+  background-color: #c82333;
+}

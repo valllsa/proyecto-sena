@@ -1,0 +1,22 @@
+/* Archivo de estilos, por ejemplo, FilterButtons.css */
+
+.filter-btn {
+    border: 1px solid #007bff; /* Color del borde */
+    border-radius: 0.25rem; /* Bordes redondeados */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Transiciones suaves */
+  }
+  
+  .filter-btn.active {
+    background-color: #007bff; /* Fondo del botón activo */
+    color: #fff; /* Color del texto del botón activo */
+  }
+  
+  .filter-btn:hover {
+    background-color: #0056b3; /* Fondo del botón en hover */
+    color: #fff; /* Color del texto en hover */
+  }
+  
+  .filter-btn:focus {
+    box-shadow: none; /* Eliminar sombra del botón cuando está en foco */
+  }
+  

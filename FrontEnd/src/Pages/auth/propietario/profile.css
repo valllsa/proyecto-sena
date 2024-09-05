@@ -1,0 +1,100 @@
+/* Estilos ajustados del contenedor para mejor alineación vertical */
+.profile-container {
+    background-color: #f8f9fa; 
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #007bff;
+    max-width: 800px;
+    margin: 40px auto; /* Reducido el margen de 100px a 40px */
+    margin-top: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex; /* Uso de flexbox */
+    flex-direction: column;
+    align-items: center; /* Centrado del contenido */
+}
+
+/* Estilo del título del perfil */
+.profile-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #343a40;
+    font-weight: bold;
+}
+
+/* Estilos para la información del perfil */
+.profile-info {
+    padding: 10px;
+    text-align: left;
+}
+
+.profile-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 10px 0;
+    color: #495057;
+}
+
+.profile-info p strong {
+    font-weight: bold;
+    color: #212529;
+}
+
+/* Estilos del encabezado del perfil */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Asegura que el contenido ocupe el ancho completo */
+    margin-bottom: 20px;
+}
+
+/* Estilos para el botón "Volver" */
+.btn-secondary {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #007bff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+}
+
+.btn-secondary:hover {
+    background-color: #e9ecef;
+    color: #000000;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+    .profile-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .profile-title {
+        font-size: 20px;
+    }
+}
+
+/* ICONOS ESTILOS */
+
+.profile-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .edit-icon {
+    cursor: pointer;
+    color: #007bff;
+    margin-left: 5px;
+  }
+  
+  .profile-input {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
