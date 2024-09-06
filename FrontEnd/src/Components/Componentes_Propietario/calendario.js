@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import './Calendario.css';
 import axios from 'axios';
 
 const Calendario = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [formData, setFormData] = useState({
@@ -17,6 +17,10 @@ const Calendario = () => {
     Motivo: ''
   });
   const [reservas, setReservas] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const propietarioActual = formData.NumeroDocumento;
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -29,14 +33,25 @@ const Calendario = () => {
         setReservas(formattedReservas);
       } catch (error) {
         console.error('Error al obtener las reservas', error);
+        setAlertMessage("Error al obtener las reservas");
+        setShowAlert(true);
       }
     };
     fetchReservas();
-  }, [currentMonth, currentYear]);
+  }, []);
 
-  const handleDayClick = (day) => {
-    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    setSelectedDate(dateStr);
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showAlert]);
+
+  const handleDateChange = (date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    setSelectedDate(formattedDate);
     setShowModal(true);
   };
 
@@ -52,7 +67,8 @@ const Calendario = () => {
     const existingReservation = reservas.some(res => res.Fecha === selectedDate);
 
     if (existingReservation) {
-      alert('Este día ya está reservado.');
+      setAlertMessage("Este día ya está reservado.");
+      setShowAlert(true);
       return;
     }
 
@@ -68,53 +84,53 @@ const Calendario = () => {
       }]);
 
       handleModalClose();
-      alert('¡Reserva realizada con éxito!');
+      setAlertMessage("¡Reserva realizada con éxito!");
+      setShowAlert(true);
     } catch (error) {
       console.error('Error detallado:', error);
-      alert(`Error al realizar la reserva: ${error.response?.data.message || 'Por favor, intente de nuevo.'}`);
+      setAlertMessage(`Error al realizar la reserva: ${error.response?.data.message || 'Por favor, intente de nuevo.'}`);
+      setShowAlert(true);
     }
   };
 
-  const getDayStatus = (day) => {
-    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const reservasEnFecha = reservas.filter(res => res.Fecha === dateStr);
-    if (reservasEnFecha.length > 0) {
-      return reservasEnFecha.some(res => res.NumeroDocumento === formData.NumeroDocumento) ? 'green' : 'red';
+  const tileContent = ({ date, view }) => {
+    if (view === 'month') {
+      const dateStr = date.toISOString().split('T')[0];
+      const reserva = reservas.find(res => res.Fecha === dateStr);
+      if (reserva) {
+        const colorClass = reserva.NumeroDocumento === propietarioActual ? 'green' : 'red';
+        return <div className={`indicator ${colorClass}`}></div>;
+      }
     }
-    return 'default';
+    return null;
   };
 
-  const daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
-
-  const generateDaysArray = (month, year) => Array.from({ length: daysInMonth(month, year) }, (_, i) => i + 1);
-
-  const days = generateDaysArray(currentMonth, currentYear);
-  const meses = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-  ];
+  const tileDisabled = ({ date, view }) => {
+    if (view === 'month') {
+      const today = new Date();
+      return date < today;
+    }
+    return false;
+  };
 
   return (
     <div className="calendario-container">
-      <div className="calendario-nav">
-        <button onClick={() => setCurrentMonth(prev => (prev === 0 ? 11 : prev - 1))}>
-          Anterior
-        </button>
-        <h3 className="calendario-header">{meses[currentMonth]} {currentYear}</h3>
-        <button onClick={() => setCurrentMonth(prev => (prev === 11 ? 0 : prev + 1))}>
-          Siguiente
-        </button>
-      </div>
-      <div className="calendario-grid">
-        {days.map(day => (
+      <div className="calendario-content">
+        <h3 className="calendario-header">Reservar Salón Comunal</h3>
+        {showAlert && (
           <div
-            key={day}
-            className={`calendario-day ${getDayStatus(day)}`}
-            onClick={() => getDayStatus(day) !== 'red' && handleDayClick(day)}
+            className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
+            role="alert"
+            style={{ position: "fixed", top: 0, width: "20%", zIndex: 1000 }}
           >
-            {day}
+            {alertMessage}
           </div>
-        ))}
+        )}
+        <Calendar
+          onChange={handleDateChange}
+          tileContent={tileContent}
+          tileDisabled={tileDisabled}
+        />
       </div>
 
       {showModal && (
