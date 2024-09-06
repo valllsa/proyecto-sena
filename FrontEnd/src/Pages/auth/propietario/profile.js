@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '../../../userContext';
 import { NavBar } from '../../../Components/Componentes_Propietario/navBar';
 import { useNavigate } from 'react-router-dom';
-import { FaEdit } from 'react-icons/fa'; // Importa el icono de edición
-import './profile.css'; // Asegúrate de que el archivo CSS esté importado correctamente
+import { FaEdit } from 'react-icons/fa';
+import './profile.css';
 
 const Profile = () => {
   const { user } = useUser();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
   const [isEditingTelefono, setIsEditingTelefono] = useState(false);
   const [isEditingCorreo, setIsEditingCorreo] = useState(false);
+  const [showAlert, setShowAlert] = useState(false); // Estado para mostrar la alerta
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -21,6 +23,16 @@ const Profile = () => {
       setLoading(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000); // La alerta desaparecerá después de 3 segundos
+
+      return () => clearTimeout(timer);
+    }
+  }, [showAlert]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -40,15 +52,18 @@ const Profile = () => {
       });
 
       if (response.ok) {
-        alert('Datos actualizados correctamente.');
+        setAlertMessage('Datos actualizados correctamente.');
+        setShowAlert(true);
         setIsEditingTelefono(false);
         setIsEditingCorreo(false);
       } else {
-        alert('Error al actualizar los datos.');
+        setAlertMessage('Error al actualizar los datos.');
+        setShowAlert(true);
       }
     } catch (error) {
       console.error('Error al actualizar:', error);
-      alert('Error al actualizar los datos.');
+      setAlertMessage('Error al actualizar los datos.');
+      setShowAlert(true);
     }
   };
 
@@ -59,6 +74,9 @@ const Profile = () => {
       </div>
     );
   }
+
+  const espacioMoto = Array.isArray(user.espacioMoto) ? user.espacioMoto : [];
+  const espacioCarro = Array.isArray(user.espacioCarro) ? user.espacioCarro : [];
 
   return (
     <>
@@ -82,14 +100,14 @@ const Profile = () => {
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
                 className="profile-input"
-                onBlur={handleSaveClick} 
+                onBlur={handleSaveClick}
               />
             ) : (
               <>
                 <span>{telefono}</span>
-                <FaEdit 
-                  className="edit-icon" 
-                  onClick={() => setIsEditingTelefono(true)} 
+                <FaEdit
+                  className="edit-icon"
+                  onClick={() => setIsEditingTelefono(true)}
                 />
               </>
             )}
@@ -102,14 +120,14 @@ const Profile = () => {
                 value={correo}
                 onChange={(e) => setCorreo(e.target.value)}
                 className="profile-input"
-                onBlur={handleSaveClick} // Guarda los cambios cuando el input pierde el foco
+                onBlur={handleSaveClick}
               />
             ) : (
               <>
                 <span>{correo}</span>
-                <FaEdit 
-                  className="edit-icon" 
-                  onClick={() => setIsEditingCorreo(true)} // Activa la edición al hacer clic en el ícono
+                <FaEdit
+                  className="edit-icon"
+                  onClick={() => setIsEditingCorreo(true)}
                 />
               </>
             )}
@@ -121,13 +139,59 @@ const Profile = () => {
             <strong>Meses Atrasados:</strong> {user.MesesAtrasados}
           </p>
           <p>
-            <strong>Espacios Parqueadero:</strong> {user.EspacioParqueadero}
+            <strong>Espacios Parqueadero:</strong>
+            <div>
+              <h3>Moto</h3>
+              <ul>
+                {espacioMoto.length > 0 ? (
+                  espacioMoto.map((espacio, index) => (
+                    <li key={index}>
+                      <strong>Espacio:</strong> {espacio.NumeroEspacio} - {espacio.TipoEspacio}
+                    </li>
+                  ))
+                ) : (
+                  <li>No tienes espacios de moto rentados</li>
+                )}
+              </ul>
+              <h3>Carro</h3>
+              <ul>
+                {espacioCarro.length > 0 ? (
+                  espacioCarro.map((espacio, index) => (
+                    <li key={index}>
+                      <strong>Espacio:</strong> {espacio.NumeroEspacio} - {espacio.TipoEspacio}
+                    </li>
+                  ))
+                ) : (
+                  <li>No tienes espacios de carro rentados</li>
+                )}
+              </ul>
+            </div>
           </p>
           <p>
             <strong>Código Vivienda:</strong> {user.CodigoVivienda}
           </p>
         </div>
       </div>
+
+      {showAlert && (
+        <div
+          className={`alert ${
+            alertMessage.includes("correctamente") ? "alert-success" : "alert-danger"
+          } alert-dismissible fade show`}
+          role="alert"
+          style={{
+            position: "fixed",
+            top: "10%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "30%",
+            zIndex: 1000,
+            textAlign: "center",
+          }}
+        >
+          {alertMessage}
+        </div>
+      )}
     </>
   );
 };

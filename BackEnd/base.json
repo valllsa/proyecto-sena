@@ -151,14 +151,15 @@
       "id": "7c2a",
       "CodigoVivienda": 1101,
       "Nombre": "Joan",
-      "Teléfono": "3118482468",
+      "Teléfono": "3138755960",
       "Correo": "joan230@gmail.com",
       "EstadoEnvio": "Enviado",
       "NumeroDocumento": 1019763603,
       "MesesAtrasados": 0,
-      "EspacioParqueadero": 11,
       "User": "joan",
-      "Pass": "27h"
+      "Pass": "27h",
+      "espacioMoto": 9,
+      "espacioCarro": null
     }
   ],
   "Parqueadero": [
@@ -201,7 +202,7 @@
     {
       "NumeroEspacio": 7,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "e8cd"
     },
     {
@@ -213,19 +214,19 @@
     {
       "NumeroEspacio": 9,
       "TipoEspacio": "Moto",
-      "Estado": "Disponible",
+      "Estado": "Ocupado",
       "id": "aac5"
     },
     {
       "NumeroEspacio": 10,
       "TipoEspacio": "Carro",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "2f15"
     },
     {
       "NumeroEspacio": 11,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "46c8"
     },
     {
@@ -237,7 +238,7 @@
     {
       "NumeroEspacio": 13,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "d6c1"
     },
     {
@@ -249,7 +250,7 @@
     {
       "NumeroEspacio": 15,
       "TipoEspacio": "Moto",
-      "Estado": "Disponible",
+      "Estado": "Ocupado",
       "id": "daa4"
     },
     {
@@ -267,7 +268,7 @@
     {
       "NumeroEspacio": 18,
       "TipoEspacio": "Carro",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "94fb"
     },
     {
@@ -297,7 +298,7 @@
     {
       "NumeroEspacio": 23,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "e0f4"
     },
     {
@@ -327,7 +328,7 @@
     {
       "NumeroEspacio": 28,
       "TipoEspacio": "Carro",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "c575"
     },
     {
@@ -351,7 +352,7 @@
     {
       "NumeroEspacio": 32,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "a1b3"
     },
     {
@@ -370,7 +371,7 @@
       "id": "fd99",
       "NumeroEspacio": "35",
       "TipoEspacio": "Moto",
-      "Estado": "Disponible"
+      "Estado": "Ocupado"
     }
   ],
   "Invitados": [
