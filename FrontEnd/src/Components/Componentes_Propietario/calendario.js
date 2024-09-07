@@ -20,7 +20,8 @@ const Calendario = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const propietarioActual = formData.NumeroDocumento;
+  // Obtener el Número de Documento del usuario autenticado desde localStorage
+  const propietarioActual = localStorage.getItem('NumeroDocumento')?.trim();
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -51,6 +52,14 @@ const Calendario = () => {
 
   const handleDateChange = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
+    const existingReservation = reservas.some(res => res.Fecha === formattedDate);
+
+    if (existingReservation) {
+      setAlertMessage("Este día ya está reservado.");
+      setShowAlert(true);
+      return;
+    }
+
     setSelectedDate(formattedDate);
     setShowModal(true);
   };
@@ -76,6 +85,7 @@ const Calendario = () => {
       const response = await axios.post('http://localhost:4000/ReservaSalon', {
         ...formData,
         Fecha: selectedDate,
+        NumeroDocumento: propietarioActual
       });
 
       setReservas(prevReservas => [...prevReservas, {
@@ -98,6 +108,7 @@ const Calendario = () => {
       const dateStr = date.toISOString().split('T')[0];
       const reserva = reservas.find(res => res.Fecha === dateStr);
       if (reserva) {
+        // Asegúrate de que el NumeroDocumento del reserva esté definido
         const colorClass = reserva.NumeroDocumento === propietarioActual ? 'green' : 'red';
         return <div className={`indicator ${colorClass}`}></div>;
       }
@@ -114,24 +125,23 @@ const Calendario = () => {
   };
 
   return (
-    <div className="calendario-container">
-      <div className="calendario-content">
-        <h3 className="calendario-header">Reservar Salón Comunal</h3>
-        {showAlert && (
-          <div
-            className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
-            role="alert"
-            style={{ position: "fixed", top: 0, width: "20%", zIndex: 1000 }}
-          >
-            {alertMessage}
-          </div>
-        )}
-        <Calendar
-          onChange={handleDateChange}
-          tileContent={tileContent}
-          tileDisabled={tileDisabled}
-        />
-      </div>
+    <div>
+      <h3 className="calendario-header">Reservar Salón Comunal</h3>
+      {showAlert && (
+        <div
+          className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
+          role="alert"
+          style={{ position: "fixed", top: 0, width: "20%", zIndex: 1000 }}
+        >
+          {alertMessage}
+        </div>
+      )}
+
+      <Calendar
+        onChange={handleDateChange}
+        tileContent={tileContent}
+        tileDisabled={tileDisabled}
+      />
 
       {showModal && (
         <div className="calendario-modal-overlay">
@@ -169,14 +179,12 @@ const Calendario = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="Motivo">Motivo de la Reserva:</label>
-                <textarea id="Motivo" name="Motivo" rows="3" value={formData.Motivo} onChange={handleChange} required />
+                <label htmlFor="Motivo">Motivo:</label>
+                <textarea id="Motivo" name="Motivo" value={formData.Motivo} onChange={handleChange} required></textarea>
               </div>
 
-              <div className="modal-buttons">
-                <button type="submit">Reservar</button>
-                <button type="button" onClick={handleModalClose}>Cerrar</button>
-              </div>
+              <button type="submit" className="btn btn-primary">Reservar</button>
+              <button type="button" className="btn btn-secondary" onClick={handleModalClose}>Cancelar</button>
             </form>
           </div>
         </div>
