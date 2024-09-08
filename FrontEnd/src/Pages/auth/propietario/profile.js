@@ -75,7 +75,9 @@ const Profile = () => {
     );
   }
 
-
+  //Muestra 0 si no hay espacios reservados
+  const espacioMoto = user.espacioMoto || 0;
+  const espacioCarro = user.espacioCarro || 0;
 
   return (
     <>
@@ -138,17 +140,13 @@ const Profile = () => {
             <strong>Meses Atrasados:</strong> {user.MesesAtrasados}
           </p>
           <p>
-            <strong>Espacios Parqueadero:</strong>
-            <div>
-              <h3>Moto</h3>
-          
-                      <strong>Espacio:</strong> {user.espacioMoto} 
-                    
-              <h3>Carro</h3>
-              
-                      <strong>Espacio:</strong> {user.espacioCarro} 
-               
-            </div>
+            <strong>Espacios Parqueadero</strong>
+          </p>
+          <p>
+            <strong>Moto:</strong> {espacioMoto}
+          </p>
+          <p>
+            <strong>Carro:</strong> {espacioCarro}
           </p>
           <p>
             <strong>Código Vivienda:</strong> {user.CodigoVivienda}

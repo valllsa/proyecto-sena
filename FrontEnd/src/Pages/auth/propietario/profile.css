@@ -1,102 +1,100 @@
-/* Estilos del contenedor del perfil */
 .profile-container {
-    background-color: #f0f4f8; /* Color de fondo claro */
-    padding: 30px;
-    border-radius: 12px;
-    border: 1px solid #007bff; /* Borde azul */
-    max-width: 900px;
-    margin:  auto;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    flex-direction: column;
-    align-items: center;
+    background-color: #f8f9fa; 
+    padding: 20px;
+    border-radius: 20px; /* Ajustado para un radio más sutil */
+    border: 1px solid #007bff; /* Color azul más suave */
+    max-width: 800px;
+    margin: 100px auto; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    text-align: center; /* Centra todo el texto en el contenedor */
 }
 
-/* Estilo del título del perfil */
 .profile-title {
     text-align: center;
-    margin-bottom: 25px;
-    font-size: 26px;
-    color: #002d72; /* Azul oscuro */
-    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 24px; 
+    color: #007bff; /* Color azul para el título */
+    font-weight: bold; 
 }
 
-/* Estilos para la información del perfil */
 .profile-info {
-    padding: 15px;
-    text-align: left;
-    width: 100%;
+    padding: 10px; 
 }
 
 .profile-info p {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.6;
-    margin: 12px 0;
-    color: #333; /* Color de texto oscuro */
+    margin: 10px 0;
+    color: #495057; 
 }
 
 .profile-info p strong {
-    font-weight: 600;
-    color: #002d72; /* Azul oscuro */
+    font-weight: bold;
+    color: #212529; 
 }
 
-/* Estilos del encabezado del perfil */
+.profile-info .profile-parkings {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos dentro de la columna */
+}
+
+.profile-info .profile-parkings div {
+    margin: 5px 0; /* Espaciado entre las líneas */
+}
+
+.edit-icon {
+    color: #007bff; /* Color azul del ícono */
+    cursor: pointer; /* Cambia el cursor a una mano para indicar que es clickeable */
+    font-size: 20px; /* Tamaño del ícono */
+    margin-left: 10px; /* Espaciado entre el texto y el ícono */
+    transition: color 0.3s; /* Transición suave para el cambio de color */
+}
+
+.edit-icon:hover {
+    color: #0056b3; /* Azul más oscuro para hover */
+}
+
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
-/* Estilos para el botón "Volver" */
 .btn-secondary {
-    background-color: #007bff; /* Azul primario */
-    color: #ffffff;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
+    background-color: #007bff; /* Azul de fondo */
+    color: #ffffff; /* Texto blanco */
+    border: 1px solid #007bff; 
+    padding: 10px 20px;
+    border-radius: 10px;
     cursor: pointer;
-    text-align: center;
+    text-align: center; 
     font-size: 16px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background-color: #0056b3; /* Azul más oscuro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #0056b3; /* Azul más oscuro para hover */
+    color: #ffffff; 
 }
 
 /* Estilos para dispositivos móviles */
 @media (max-width: 768px) {
     .profile-container {
-        margin: 20px;
-        padding: 20px;
+        margin: 20px; 
+        padding: 15px; 
     }
 
     .profile-title {
-        font-size: 22px;
+        font-size: 20px; 
     }
-}
 
-/* ICONOS ESTILOS */
-.profile-field {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+    .profile-info p {
+        font-size: 14px; /* Tamaño de fuente ajustado para dispositivos móviles */
+    }
 
-.edit-icon {
-    cursor: pointer;
-    color: #007bff; /* Azul primario */
-    margin-left: 5px;
-    font-size: 18px;
-}
-
-.profile-input {
-    border: 1px solid #007bff; /* Borde azul primario */
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-    width: 100%;
+    .btn-secondary {
+        font-size: 14px; /* Tamaño de fuente ajustado para dispositivos móviles */
+        padding: 8px 16px; /* Ajuste del padding para dispositivos móviles */
+    }
 }

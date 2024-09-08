@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Modal, Button, Form, Alert, Row, Col } from 'react-bootstrap'; // Añadido Row y Col
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import './Calendario.css';
 import axios from 'axios';
 
@@ -18,8 +18,13 @@ const Calendario = () => {
     Motivo: ''
   });
   const [reservas, setReservas] = useState([]);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const [formErrors, setFormErrors] = useState({
+    Nombre: '',
+    NumeroDocumento: '',
+    Telefono: '',
+    CodigoVivienda: '',
+    Motivo: ''
+  });
 
   const propietarioActual = formData.NumeroDocumento;
 
@@ -34,29 +39,18 @@ const Calendario = () => {
         setReservas(formattedReservas);
       } catch (error) {
         console.error('Error al obtener las reservas', error);
-        setAlertMessage("Error al obtener las reservas");
-        setShowAlert(true);
+        setFormErrors(prev => ({ ...prev, global: "Error al obtener las reservas" }));
       }
     };
     fetchReservas();
   }, []);
-
-  useEffect(() => {
-    if (showAlert) {
-      const timer = setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showAlert]);
 
   const handleDateChange = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
     const existingReservation = reservas.some(res => res.Fecha === formattedDate);
     
     if (existingReservation) {
-      setAlertMessage("Este día ya está reservado.");
-      setShowAlert(true);
+      setFormErrors(prev => ({ ...prev, global: "Este día ya está reservado." }));
       return;
     }
     
@@ -68,7 +62,35 @@ const Calendario = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    let isValid = true;
+    let errorMessage = '';
+
+    if (name === "Nombre" && !/^[a-zA-Z\s]*$/.test(value)) {
+      errorMessage = "El nombre solo puede contener letras y espacios.";
+      isValid = false;
+    }
+
+    if ((name === "NumeroDocumento" || name === "Telefono" || name === "CodigoVivienda") && !/^\d*$/.test(value)) {
+      errorMessage = "Este campo solo puede contener números.";
+      isValid = false;
+    }
+
+    if (name === "Motivo" && !/^[\w\s.,!?]*$/.test(value)) {
+      errorMessage = "El motivo solo puede contener letras, números y puntuación básica.";
+      isValid = false;
+    }
+
+    setFormErrors(prev => ({
+      ...prev,
+      [name]: errorMessage
+    }));
+
+    if (isValid) {
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleFormSubmit = async (e) => {
@@ -76,8 +98,7 @@ const Calendario = () => {
     const existingReservation = reservas.some(res => res.Fecha === selectedDate);
 
     if (existingReservation) {
-      setAlertMessage("Este día ya está reservado.");
-      setShowAlert(true);
+      setFormErrors(prev => ({ ...prev, global: "Este día ya está reservado." }));
       return;
     }
 
@@ -93,12 +114,13 @@ const Calendario = () => {
       }]);
 
       handleModalClose();
-      setAlertMessage("¡Reserva realizada con éxito!");
-      setShowAlert(true);
+      setFormErrors(prev => ({ ...prev, global: "¡Reserva realizada con éxito!" }));
     } catch (error) {
       console.error('Error detallado:', error);
-      setAlertMessage(`Error al realizar la reserva: ${error.response?.data.message || 'Por favor, intente de nuevo.'}`);
-      setShowAlert(true);
+      setFormErrors(prev => ({
+        ...prev,
+        global: `Error al realizar la reserva: ${error.response?.data.message || 'Por favor, intente de nuevo.'}`
+      }));
     }
   };
 
@@ -121,47 +143,44 @@ const Calendario = () => {
     }
     return false;
   };
-  
 
   return (
     <div>
       <div>
         <h3 className="calendario-header">Reservar Salón Comunal</h3>
-        {showAlert && (
-  <div
-    className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
-    role="alert"
-    style={{
-      position: "fixed",
-      top: "1rem", // Ajusta esta distancia según tu preferencia
-      left: "50%",
-      transform: "translateX(-50%)",
-      width: "80%",
-      maxWidth: "500px",
-      zIndex: 1000,
-      borderRadius: "0.375rem", // Opcional, para bordes redondeados
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Opcional, para sombra
-    }}
-  >
-    {alertMessage}
-  </div>
-)}
+        {formErrors.global && (
+          <div
+            className={`alert ${formErrors.global.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
+            role="alert"
+            style={{
+              position: "fixed",
+              top: "1rem",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "80%",
+              maxWidth: "500px",
+              zIndex: 1050,
+              borderRadius: "0.375rem",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+            }}
+          >
+            {formErrors.global}
+          </div>
+        )}
         
         <Calendar
           onChange={handleDateChange}
           tileContent={tileContent}
           tileDisabled={tileDisabled}
         />
-        
       </div>
-      {/* Bootstrap Modal with Custom Styling */}
       <Modal
         show={showModal}
         onHide={handleModalClose}
         centered
         backdrop="static"
         keyboard={false}
-        className="custom-modal" // Add custom class for styling
+        className="custom-modal"
       >
         <Modal.Header closeButton className="border-0">
           <Modal.Title className="custom-modal-title">Reserva del Salón para el {selectedDate}</Modal.Title>
@@ -180,6 +199,7 @@ const Calendario = () => {
                     onChange={handleChange}
                     required
                   />
+                  {formErrors.Nombre && <div className="error-message">{formErrors.Nombre}</div>}
                 </Form.Group>
               </Col>
               <Col md={6}>
@@ -193,6 +213,7 @@ const Calendario = () => {
                     onChange={handleChange}
                     required
                   />
+                  {formErrors.NumeroDocumento && <div className="error-message">{formErrors.NumeroDocumento}</div>}
                 </Form.Group>
               </Col>
             </Row>
@@ -208,6 +229,7 @@ const Calendario = () => {
                     onChange={handleChange}
                     required
                   />
+                  {formErrors.Telefono && <div className="error-message">{formErrors.Telefono}</div>}
                 </Form.Group>
               </Col>
               <Col md={6}>
@@ -221,6 +243,7 @@ const Calendario = () => {
                     onChange={handleChange}
                     required
                   />
+                  {formErrors.CodigoVivienda && <div className="error-message">{formErrors.CodigoVivienda}</div>}
                 </Form.Group>
               </Col>
             </Row>
@@ -261,6 +284,7 @@ const Calendario = () => {
                 onChange={handleChange}
                 required
               />
+              {formErrors.Motivo && <div className="error-message">{formErrors.Motivo}</div>}
             </Form.Group>
 
             <div className="d-flex justify-content-end">
