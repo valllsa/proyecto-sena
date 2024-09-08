@@ -13,7 +13,7 @@ const Profile = () => {
   const [correo, setCorreo] = useState('');
   const [isEditingTelefono, setIsEditingTelefono] = useState(false);
   const [isEditingCorreo, setIsEditingCorreo] = useState(false);
-  const [showAlert, setShowAlert] = useState(false); // Estado para mostrar la alerta
+  const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Profile = () => {
     if (showAlert) {
       const timer = setTimeout(() => {
         setShowAlert(false);
-      }, 3000); // La alerta desaparecerá después de 3 segundos
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -75,8 +75,7 @@ const Profile = () => {
     );
   }
 
-  const espacioMoto = Array.isArray(user.espacioMoto) ? user.espacioMoto : [];
-  const espacioCarro = Array.isArray(user.espacioCarro) ? user.espacioCarro : [];
+
 
   return (
     <>
@@ -142,29 +141,13 @@ const Profile = () => {
             <strong>Espacios Parqueadero:</strong>
             <div>
               <h3>Moto</h3>
-              <ul>
-                {espacioMoto.length > 0 ? (
-                  espacioMoto.map((espacio, index) => (
-                    <li key={index}>
-                      <strong>Espacio:</strong> {espacio.NumeroEspacio} - {espacio.TipoEspacio}
-                    </li>
-                  ))
-                ) : (
-                  <li>No tienes espacios de moto rentados</li>
-                )}
-              </ul>
+          
+                      <strong>Espacio:</strong> {user.espacioMoto} 
+                    
               <h3>Carro</h3>
-              <ul>
-                {espacioCarro.length > 0 ? (
-                  espacioCarro.map((espacio, index) => (
-                    <li key={index}>
-                      <strong>Espacio:</strong> {espacio.NumeroEspacio} - {espacio.TipoEspacio}
-                    </li>
-                  ))
-                ) : (
-                  <li>No tienes espacios de carro rentados</li>
-                )}
-              </ul>
+              
+                      <strong>Espacio:</strong> {user.espacioCarro} 
+               
             </div>
           </p>
           <p>

@@ -67,20 +67,30 @@ const LoginPropietario = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        filter: "brightness(90%)", 
+        filter: "brightness(90%)",  
       }}
     >
       {showAlert && (
         <div
-          className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
-          role="alert"
-          style={{ position: "fixed", top: 0, width: "20%", zIndex: 1000 }}
-        >
-          {alertMessage}
-        </div>
-      )}
+        className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
+        role="alert"
+        style={{
+          position: "fixed",
+          top: "1rem", // Ajusta esta distancia según tu preferencia
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "80%",
+          maxWidth: "500px",
+          zIndex: 1000,
+          borderRadius: "0.375rem", // Opcional, para bordes redondeados
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Opcional, para sombra
+        }}
+      >
+        {alertMessage}
+      </div>
+    )}
 
-      <div className="login-box s">
+      <div className="login-box rounded-4">
         <div className="d-flex align-items-center flex-sm-column my-3">
           <div className="w-25">
             <Link to="/" className="text-decoration-none">

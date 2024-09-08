@@ -86,9 +86,11 @@ const Tabla = ({ apiS }) => {
       return;
     }
 
+    // Obtener los espacios actualmente alquilados por el usuario
     const espacioMoto = user.espacioMoto || null;
     const espacioCarro = user.espacioCarro || null;
 
+    // Verificar si el usuario ya ha alquilado un espacio del tipo solicitado
     if (
       (EspacioParqueadero === "Moto" && espacioMoto) ||
       (EspacioParqueadero === "Carro" && espacioCarro)
@@ -101,10 +103,12 @@ const Tabla = ({ apiS }) => {
     }
 
     try {
+      // Actualizar el estado del espacio en la base de datos
       await axios.patch(`http://localhost:4000/${apiS}/${spaceId}`, {
         Estado: "Ocupado",
       });
 
+      // Actualizar el estado del espacio en el estado local
       if (EspacioParqueadero === "Moto") {
         setDataMoto((prevData) =>
           prevData.map((item) =>
@@ -119,6 +123,7 @@ const Tabla = ({ apiS }) => {
         );
       }
 
+      // Actualizar los datos del usuario en la base de datos
       const updatedUser = {
         ...user,
         espacioMoto:
@@ -145,26 +150,26 @@ const Tabla = ({ apiS }) => {
 
   return (
     <div className="w-100 h-100">
-  {showAlert && (
-    <div
-      className={`alert ${
-        alertMessage.includes("exitosamente")
-          ? "alert-success"
-          : "alert-danger"
-      } alert-dismissible fade show`}
-      role="alert"
-      style={{
-        position: "fixed",
-        top: "10%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: "30%",
-        zIndex: 1000,
-        textAlign: "center",
-      }}
-    >
-      {alertMessage}
-    </div>
+      {showAlert && (
+        <div
+          className={`alert ${
+            alertMessage.includes("exitosamente")
+              ? "alert-success"
+              : "alert-danger"
+          } alert-dismissible fade show`}
+          role="alert"
+          style={{
+            position: "fixed",
+            top: "10%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "30%",
+            zIndex: 1000,
+            textAlign: "center",
+          }}
+        >
+          {alertMessage}
+        </div>
       )}
 
       <div className="card m-0 h-100">
@@ -172,18 +177,8 @@ const Tabla = ({ apiS }) => {
           <div className="d-flex flex-row">
             {/* Moto Section */}
             <div className="px-3 w-50">
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Buscar"
-                  aria-label="Buscar"
-                />
-                <button className="btn btn-outline-success" type="submit">
-                  Buscar
-                </button>
-              </form>
               <h2 className="text-center">Moto</h2>
+              <br></br>
               <div className="d-flex flex-wrap mt-3">
                 {currentRecordsMoto.map((record, index) => (
                   <div
@@ -277,18 +272,8 @@ const Tabla = ({ apiS }) => {
 
             {/* Carro Section */}
             <div className="px-3 w-50">
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Buscar"
-                  aria-label="Buscar"
-                />
-                <button className="btn btn-outline-success" type="submit">
-                  Buscar
-                </button>
-              </form>
               <h2 className="text-center">Carro</h2>
+              <br></br>
               <div className="d-flex flex-wrap mt-3">
                 {currentRecordsCarro.map((record, index) => (
                   <div

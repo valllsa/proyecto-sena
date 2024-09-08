@@ -158,8 +158,8 @@
       "MesesAtrasados": 0,
       "User": "joan",
       "Pass": "27h",
-      "espacioMoto": 9,
-      "espacioCarro": 8
+      "espacioMoto": 11,
+      "espacioCarro": 2
     },
     {
       "id": "deb6",
@@ -172,39 +172,117 @@
       "EspacioParqueadero": 0,
       "User": "valery 11014667051",
       "Pass": "11014667051",
-      "espacioMoto": 7,
-      "espacioCarro": 4
+      "espacioMoto": 13,
+      "espacioCarro": null
+    }
+  ],
+  "ReservaSalon": [
+    {
+      "id": "8130",
+      "Nombre": "Denys Fontecha",
+      "Telefono": "123467",
+      "CodigoVivienda": "12",
+      "HoraInicio": "22:00",
+      "HoraFin": "02:00",
+      "Motivo": "reunion",
+      "Fecha": "2024-09-19"
+    },
+    {
+      "id": "e6ef",
+      "Nombre": "Denys Fontecha",
+      "NumeroDocumento": "4324324",
+      "Telefono": "3432423",
+      "CodigoVivienda": "12",
+      "HoraInicio": "13:45",
+      "HoraFin": "09:00",
+      "Motivo": "bhvg",
+      "Fecha": "2024-09-18"
+    },
+    {
+      "id": "95e2",
+      "Nombre": "Denys Fontecha",
+      "NumeroDocumento": "4324324",
+      "Telefono": "3432423",
+      "CodigoVivienda": "12",
+      "HoraInicio": "21:09",
+      "HoraFin": "03:00",
+      "Motivo": "ygvgv",
+      "Fecha": "2024-09-17"
+    },
+    {
+      "id": "519f",
+      "Nombre": "Denys Fontecha",
+      "NumeroDocumento": "1548952136",
+      "Telefono": "3138755960",
+      "CodigoVivienda": "12",
+      "HoraInicio": "16:32",
+      "HoraFin": "14:34",
+      "Motivo": "fdsfsd",
+      "Fecha": "2024-09-12"
+    },
+    {
+      "id": "51c3",
+      "Nombre": "Denys Fontecha",
+      "NumeroDocumento": "1548952136",
+      "Telefono": "3138755960",
+      "CodigoVivienda": "12",
+      "HoraInicio": "16:32",
+      "HoraFin": "14:34",
+      "Motivo": "fdsfsd",
+      "Fecha": "2024-09-11"
+    },
+    {
+      "id": "eb8b",
+      "Nombre": "Denys Fontecha",
+      "NumeroDocumento": "1548952136",
+      "Telefono": "3138755960",
+      "CodigoVivienda": "12",
+      "HoraInicio": "15:43",
+      "HoraFin": "16:32",
+      "Motivo": "vcvcx",
+      "Fecha": "2024-09-13"
+    },
+    {
+      "id": "24bc",
+      "Nombre": "Denys Fontecha",
+      "NumeroDocumento": "1548952136",
+      "Telefono": "3138755960",
+      "CodigoVivienda": "12",
+      "HoraInicio": "19:19",
+      "HoraFin": "00:19",
+      "Motivo": "hdjshvbnvfd",
+      "Fecha": "2024-09-10"
     }
   ],
   "Parqueadero": [
     {
       "NumeroEspacio": "1",
       "TipoEspacio": "Carro",
-      "Estado": "Disponible",
+      "Estado": "Ocupado",
       "id": "0bbe"
     },
     {
       "NumeroEspacio": 2,
       "TipoEspacio": "Carro",
-      "Estado": "Disponible",
+      "Estado": "Ocupado",
       "id": "1ca2"
     },
     {
       "NumeroEspacio": 3,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "4eb4"
     },
     {
       "NumeroEspacio": 4,
       "TipoEspacio": "Carro",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "0b2c"
     },
     {
       "NumeroEspacio": 5,
       "TipoEspacio": "Moto",
-      "Estado": "Disponible",
+      "Estado": "Ocupado",
       "id": "6c09"
     },
     {
@@ -216,13 +294,13 @@
     {
       "NumeroEspacio": 7,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "e8cd"
     },
     {
       "NumeroEspacio": 8,
       "TipoEspacio": "Carro",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "9da7"
     },
     {
@@ -240,7 +318,7 @@
     {
       "NumeroEspacio": 11,
       "TipoEspacio": "Moto",
-      "Estado": "Disponible",
+      "Estado": "Ocupado",
       "id": "46c8"
     },
     {
@@ -252,7 +330,7 @@
     {
       "NumeroEspacio": 13,
       "TipoEspacio": "Moto",
-      "Estado": "Disponible",
+      "Estado": "Ocupado",
       "id": "d6c1"
     },
     {
@@ -264,7 +342,7 @@
     {
       "NumeroEspacio": 15,
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "daa4"
     },
     {
@@ -378,14 +456,14 @@
     {
       "NumeroEspacio": 34,
       "TipoEspacio": "Carro",
-      "Estado": "Ocupado",
+      "Estado": "Disponible",
       "id": "a1b5"
     },
     {
       "id": "fd99",
       "NumeroEspacio": "35",
       "TipoEspacio": "Moto",
-      "Estado": "Ocupado"
+      "Estado": "Disponible"
     }
   ],
   "Invitados": [
@@ -708,42 +786,6 @@
       "NumeroParqueadero": "5",
       "Costo": "30000",
       "CodigoVivienda": "1101"
-    }
-  ],
-  "ReservaSalon": [
-    {
-      "NumeroReunion": 23,
-      "Motivo": "Discusión sobre mejoras en el servicio de mantenimiento",
-      "Fecha": "2024-12-09",
-      "HoraInicio": "13:30:00",
-      "HoraFin": "18:45:00",
-      "id": "b6e0"
-    },
-    {
-      "NumeroReunion": 24,
-      "Motivo": "Revisión de políticas de uso de espacios comunes",
-      "Fecha": "2024-12-08",
-      "HoraInicio": "13:30:00",
-      "HoraFin": "18:45:00",
-      "id": "0171"
-    },
-    {
-      "id": "554e",
-      "NumeroReunion": "1",
-      "Motivo": "Dia de la emergencia",
-      "Fecha": "2024-08-01",
-      "HoraInicio": "00:20",
-      "HoraFin": "16:23"
-    },
-    {
-      "id": "9970",
-      "Nombre": "valery  zambrano",
-      "Telefono": "1234567",
-      "CodigoVivienda": "12",
-      "HoraInicio": "03:12",
-      "HoraFin": "03:12",
-      "Motivo": "fiesta",
-      "Fecha": "2024-09-12"
     }
   ],
   "Porteros": [

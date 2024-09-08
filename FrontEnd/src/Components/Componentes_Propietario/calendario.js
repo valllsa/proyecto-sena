@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { Modal, Button, Form, Alert, Row, Col } from 'react-bootstrap'; // Añadido Row y Col
 import './Calendario.css';
 import axios from 'axios';
 
@@ -20,8 +21,7 @@ const Calendario = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  // Obtener el Número de Documento del usuario autenticado desde localStorage
-  const propietarioActual = localStorage.getItem('NumeroDocumento')?.trim();
+  const propietarioActual = formData.NumeroDocumento;
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -53,13 +53,13 @@ const Calendario = () => {
   const handleDateChange = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
     const existingReservation = reservas.some(res => res.Fecha === formattedDate);
-
+    
     if (existingReservation) {
       setAlertMessage("Este día ya está reservado.");
       setShowAlert(true);
       return;
     }
-
+    
     setSelectedDate(formattedDate);
     setShowModal(true);
   };
@@ -85,7 +85,6 @@ const Calendario = () => {
       const response = await axios.post('http://localhost:4000/ReservaSalon', {
         ...formData,
         Fecha: selectedDate,
-        NumeroDocumento: propietarioActual
       });
 
       setReservas(prevReservas => [...prevReservas, {
@@ -108,7 +107,6 @@ const Calendario = () => {
       const dateStr = date.toISOString().split('T')[0];
       const reserva = reservas.find(res => res.Fecha === dateStr);
       if (reserva) {
-        // Asegúrate de que el NumeroDocumento del reserva esté definido
         const colorClass = reserva.NumeroDocumento === propietarioActual ? 'green' : 'red';
         return <div className={`indicator ${colorClass}`}></div>;
       }
@@ -123,72 +121,156 @@ const Calendario = () => {
     }
     return false;
   };
+  
 
   return (
     <div>
-      <h3 className="calendario-header">Reservar Salón Comunal</h3>
-      {showAlert && (
-        <div
-          className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
-          role="alert"
-          style={{ position: "fixed", top: 0, width: "20%", zIndex: 1000 }}
-        >
-          {alertMessage}
-        </div>
-      )}
+      <div>
+        <h3 className="calendario-header">Reservar Salón Comunal</h3>
+        {showAlert && (
+  <div
+    className={`alert ${alertMessage.includes("éxito") ? "alert-success" : "alert-danger"} alert-dismissible fade show`}
+    role="alert"
+    style={{
+      position: "fixed",
+      top: "1rem", // Ajusta esta distancia según tu preferencia
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: "80%",
+      maxWidth: "500px",
+      zIndex: 1000,
+      borderRadius: "0.375rem", // Opcional, para bordes redondeados
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Opcional, para sombra
+    }}
+  >
+    {alertMessage}
+  </div>
+)}
+        
+        <Calendar
+          onChange={handleDateChange}
+          tileContent={tileContent}
+          tileDisabled={tileDisabled}
+        />
+        
+      </div>
+      {/* Bootstrap Modal with Custom Styling */}
+      <Modal
+        show={showModal}
+        onHide={handleModalClose}
+        centered
+        backdrop="static"
+        keyboard={false}
+        className="custom-modal" // Add custom class for styling
+      >
+        <Modal.Header closeButton className="border-0">
+          <Modal.Title className="custom-modal-title">Reserva del Salón para el {selectedDate}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleFormSubmit}>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="Nombre">
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="Nombre"
+                    placeholder="Ingrese su nombre"
+                    value={formData.Nombre}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="NumeroDocumento">
+                  <Form.Label>Número de Documento</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="NumeroDocumento"
+                    placeholder="Ingrese su documento"
+                    value={formData.NumeroDocumento}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="Telefono">
+                  <Form.Label>Teléfono</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="Telefono"
+                    placeholder="Ingrese su teléfono"
+                    value={formData.Telefono}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="CodigoVivienda">
+                  <Form.Label>Código de Vivienda</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="CodigoVivienda"
+                    placeholder="Ingrese su código de vivienda"
+                    value={formData.CodigoVivienda}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="HoraInicio">
+                  <Form.Label>Hora de Inicio</Form.Label>
+                  <Form.Control
+                    type="time"
+                    name="HoraInicio"
+                    value={formData.HoraInicio}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="HoraFin">
+                  <Form.Label>Hora de Fin</Form.Label>
+                  <Form.Control
+                    type="time"
+                    name="HoraFin"
+                    value={formData.HoraFin}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group className="mb-3" controlId="Motivo">
+              <Form.Label>Motivo de la Reserva</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="Motivo"
+                placeholder="Escriba el motivo de la reserva"
+                value={formData.Motivo}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-      <Calendar
-        onChange={handleDateChange}
-        tileContent={tileContent}
-        tileDisabled={tileDisabled}
-      />
-
-      {showModal && (
-        <div className="calendario-modal-overlay">
-          <div className="calendario-modal-content">
-            <h2>Reservar para el {selectedDate}</h2>
-            <form onSubmit={handleFormSubmit}>
-              <div className="form-group">
-                <label htmlFor="Nombre">Nombre:</label>
-                <input type="text" id="Nombre" name="Nombre" value={formData.Nombre} onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="NumeroDocumento">Número de Documento:</label>
-                <input type="text" id="NumeroDocumento" name="NumeroDocumento" value={formData.NumeroDocumento} onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="Telefono">Teléfono:</label>
-                <input type="text" id="Telefono" name="Telefono" value={formData.Telefono} onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="CodigoVivienda">Código de Vivienda:</label>
-                <input type="text" id="CodigoVivienda" name="CodigoVivienda" value={formData.CodigoVivienda} onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="HoraInicio">Hora de Inicio:</label>
-                <input type="time" id="HoraInicio" name="HoraInicio" value={formData.HoraInicio} onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="HoraFin">Hora de Fin:</label>
-                <input type="time" id="HoraFin" name="HoraFin" value={formData.HoraFin} onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="Motivo">Motivo:</label>
-                <textarea id="Motivo" name="Motivo" value={formData.Motivo} onChange={handleChange} required></textarea>
-              </div>
-
-              <button type="submit" className="btn btn-primary">Reservar</button>
-              <button type="button" className="btn btn-secondary" onClick={handleModalClose}>Cancelar</button>
-            </form>
-          </div>
-        </div>
-      )}
+            <div className="d-flex justify-content-end">
+              <Button variant="primary" type="submit">
+                Confirmar Reserva
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

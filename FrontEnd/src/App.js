@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./Pages/auth/main";
 import MainAdmin from "./Pages/auth/admin/mainAdmin";
